@@ -1,6 +1,6 @@
 // src/polimorfismo.ts
-
-import { Persona } from './encapsulamiento';
+import { Persona, Producto, Animal } from './encapsulamiento';
+import { ProductoElectronico, Gato, Perro } from './herencia';
 
 class Profesor extends Persona {
     private materia: string;
@@ -54,4 +54,43 @@ function presentarPersona(persona: Persona): string {
     }
 }
 
-export { Profesor, Estudiante, presentarPersona };
+
+class ProductoAlimenticio extends Producto {
+    private fechaCaducidad: Date;
+
+    constructor(codigo: string, nombre: string, precio: number, stock: number, fechaCaducidad: Date) {
+        super(codigo, nombre, precio, stock);
+        this.fechaCaducidad = fechaCaducidad;
+    }
+
+    public getFechaCaducidad(): Date {
+        return this.fechaCaducidad;
+    }
+
+    public presentar(): string {
+        return `Producto alimenticio ${this.getNombre()}, caduca el ${this.fechaCaducidad.toLocaleDateString()}`;
+    }
+}
+
+function mostrarInformacionProducto(producto: Producto): string {
+    if (producto instanceof ProductoElectronico) {
+        return `Producto electrónico: ${producto.getNombre()} - Garantía: ${producto.getGarantiaMeses()} meses`;
+    } else if (producto instanceof ProductoAlimenticio) {
+        return producto.presentar();
+    } else {
+        return `Producto: ${producto.getNombre()} - Stock: ${producto.getStock()}`;
+    }
+}
+
+function hacerSonido(animal: Animal): string {
+    if (animal instanceof Perro) {
+        return animal.ladrar();
+    } else if (animal instanceof Gato) {
+        return animal.maullar();
+    } else {
+        return `${animal.getNombre()} hace un sonido`;
+    }
+}
+
+
+export { Profesor, Estudiante, presentarPersona, ProductoAlimenticio, mostrarInformacionProducto, hacerSonido };
